@@ -1,4 +1,9 @@
 from mininet.topo import Topo
+from mininet.net import Mininet
+from mininet.node import CPULimitedHost
+from mininet.link import TCLink
+from mininet.util import dumpNodeConnections
+from mininet.log import setLogLevel
 
 class MyTopo( Topo ):
     "Simple topology example."
@@ -50,35 +55,27 @@ class MyTopo( Topo ):
         self.addLink( h2, sw14 )
         self.addLink( h3, sw1 )
 
-        self.addLink( sw13, sw3 )
-        self.addLink( sw13, sw7 )
+        self.addLink( sw13, sw3, bw=15, cls=TCLink )
+        self.addLink( sw13, sw7, bw=15, cls=TCLink )
 
-        self.addLink( sw14, sw7 )
+        self.addLink( sw14, sw7, bw=20, cls=TCLink )
 
         self.addLink( sw15, sw8 )
 
-        self.addLink( sw16, sw8 )
-        self.addLink( sw16, sw12 )
+        self.addLink( sw16, sw8 , bw=15, cls=TCLink )
+        self.addLink( sw16, sw12 , bw=10, cls=TCLink )
 
-        self.addLink( sw3, sw2 )
-        self.addLink( sw4, sw1 )
-        self.addLink( sw4, sw2 )
+        self.addLink( sw3, sw2 , delay = 100, cls=TCLink)
+        self.addLink( sw4, sw1 , delay = 100, cls=TCLink)
+        self.addLink( sw4, sw2 , delay = 50, cls=TCLink)
 
-        self.addLink( sw7, sw6 )
-        self.addLink( sw8, sw5 )
-        self.addLink( sw8, sw6 )
+        self.addLink( sw7, sw6 , delay = 100, cls=TCLink)
+        self.addLink( sw8, sw5 , delay = 100, cls=TCLink)
+        self.addLink( sw8, sw6 , delay = 50, cls=TCLink)
 
-        self.addLink( sw11, sw9 )
-        self.addLink( sw11, sw10 )
-        self.addLink( sw12, sw10 )
-
-        
-
-
-
-
-
-
+        self.addLink( sw11, sw9 , delay = 50, cls=TCLink)
+        self.addLink( sw11, sw10 , delay= 100, cls=TCLink)
+        self.addLink( sw12, sw10 , delay= 50, cls=TCLink)
 
         self.addLink( sw1, s1 )
         self.addLink( sw1, s2 )
@@ -99,4 +96,5 @@ class MyTopo( Topo ):
         self.addLink( sw6, s12 )
 
 
-topos = { 'mytopo': ( lambda x : MyTopo() ) }
+topos = { 'mytopo': ( lambda x: MyTopo() ) }
+
